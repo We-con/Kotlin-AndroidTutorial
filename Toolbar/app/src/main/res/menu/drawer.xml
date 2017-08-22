@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/navigation_item_home"
+            android:title="Home"
+            android:icon="@drawable/ic_action_home"
+            android:checked="true" />
+        <item
+            android:id="@+id/navigation_item_smile"
+            android:title="Smile"
+            android:icon="@drawable/ic_action_smile" />
+        <item
+            android:id="@+id/navigation_item_shop"
+            android:title="Shop"
+            android:icon="@drawable/ic_action_shop"/>
+    </group>
+
+    <item android:title="Community" >
+        <menu>
+            <item
+                android:id="@+id/navigation_item_settings_A"
+                android:title="Settings A"
+                android:icon="@drawable/ic_action_setting"
+                android:checkable="true" />
+            <item
+                android:id="@+id/navigation_item_settings_B"
+                android:title="Settings B"
+                android:icon="@drawable/ic_action_setting"
+                android:checkable="true" />
+        </menu>
+    </item>
+
+</menu>
