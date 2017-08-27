@@ -12,13 +12,12 @@ import com.tutorial.mim.recyclerview_header.model.Item
 /**
  * Created by lf_wannabe on 27/08/2017.
  */
-class ExAdapter(ac: FragmentActivity, item: Item) : ListAdapterWithHeader(ac) {
+class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
+    : ListAdapterWithHeader(ac, hasHeader) {
     var mItem: Item = item
 
-    init {
-    }
-
-    override fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder
+    override fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup)
+            : RecyclerView.ViewHolder
             = HeaderHolder(layoutInflater.inflate(R.layout.list_header, parent, false))
 
     override fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int) {

@@ -14,27 +14,19 @@ import com.tutorial.mim.recyclerview_header.model.ItemHolder
  * Created by lf_wannabe on 26/08/2017.
  */
 
-abstract class ListAdapterWithHeader(ac: FragmentActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+abstract class ListAdapterWithHeader(val activity: FragmentActivity, protected val hasHeader: Boolean)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val HEADER_TYPE: Int = 0
     private val ITEM_TYPE: Int = 1
-    private val activity: FragmentActivity = ac
 
-    private var list: ArrayList<Item>? = null
-    protected var hasHeader: Boolean = false
+    private var list: ArrayList<Item> = ArrayList()
 
-    fun setHeaderFlag(b: Boolean) {
-        hasHeader = b
-    }
-
-    init { }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when(viewType){
-        HEADER_TYPE -> createHeaderView(activity.layoutInflater, parent)
-        ITEM_TYPE -> ItemHolder(activity.layoutInflater.inflate(R.layout.list_content, parent, false))
-    // is-condition or in-condition??
-        else -> ItemHolder(activity.layoutInflater.inflate(R.layout.list_content, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+        = when(viewType){
+            HEADER_TYPE -> createHeaderView(activity.layoutInflater, parent)
+            else -> ItemHolder(activity.layoutInflater.inflate(R.layout.list_content, parent, false))
+        }
 
     protected abstract fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder
 
