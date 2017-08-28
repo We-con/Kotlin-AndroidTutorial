@@ -1,6 +1,7 @@
 package com.tutorial.mim.recyclerview_header.model
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.list_content.view.*
 

@@ -8,6 +8,7 @@ import com.tutorial.mim.recyclerview_header.model.Item
 import android.view.LayoutInflater
 import com.example.lf_wannabe.recyclerviewwithheader.R
 import com.tutorial.mim.recyclerview_header.model.ItemHolder
+import io.realm.RealmResults
 
 
 /**
@@ -20,7 +21,7 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity, protected v
     private val HEADER_TYPE: Int = 0
     private val ITEM_TYPE: Int = 1
 
-    private var list: ArrayList<Item> = ArrayList()
+    private lateinit var list: RealmResults<Item>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
         = when(viewType){
@@ -39,7 +40,7 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity, protected v
         }
     }
 
-    fun setData(list: ArrayList<Item>){
+    fun setData(list: RealmResults<Item>){
         // null 체크 필요없나 ?
         this.list = list
     }
@@ -49,9 +50,9 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity, protected v
     }
 
     override fun getItemCount(): Int {
-        return if (list != null) (list as ArrayList).size + (if (hasHeader) 1 else 0) else if (hasHeader) 1 else 0
+        return if (list != null) list.size + (if (hasHeader) 1 else 0) else if (hasHeader) 1 else 0
     }
 
-    private fun getItem(position: Int): Item? = list?.get(position - 1)
+    private fun getItem(position: Int): Item? = list[position - 1]
 
 }
