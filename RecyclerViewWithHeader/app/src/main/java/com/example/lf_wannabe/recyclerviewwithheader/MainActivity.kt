@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         addBtn.setOnClickListener{
-            startActivity(Intent(this, PopupActivity::class.java))
+//            startActivity(Intent(this, PopupActivity::class.java))
 
             realm.beginTransaction()
             var tmp = realm.createObject(Item::class.java)

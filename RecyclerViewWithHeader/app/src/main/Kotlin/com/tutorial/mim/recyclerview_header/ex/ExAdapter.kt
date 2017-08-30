@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.lf_wannabe.recyclerviewwithheader.R
 import com.tutorial.mim.recyclerview_header.adapter.ListAdapterWithHeader
-import com.tutorial.mim.recyclerview_header.model.HeaderHolder
+import com.tutorial.mim.recyclerview_header.model.BaseViewHolder
 import com.tutorial.mim.recyclerview_header.model.Item
 import com.tutorial.mim.recyclerview_header.model.ItemHolder
 
@@ -17,12 +17,35 @@ class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
     : ListAdapterWithHeader(ac, hasHeader) {
     var mItem: Item = item
 
-    override fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup)
-            : RecyclerView.ViewHolder =
-            HeaderHolder(layoutInflater.inflate(R.layout.list_header, parent, false))
+//    override fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int) {
+//        (holder as ItemHolder).onBindHeader(mItem)
+//    }
 
-    override fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as HeaderHolder).onBind(mItem)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            when (viewType) {
+                HEADER_TYPE -> ItemHolder(LayoutInflater.from(parent.context)
+                            .inflate(R.layout.list_header, parent, false))
+                else -> ItemHolder(LayoutInflater.from(parent.context)
+                        .inflate(R.layout.list_content, parent, false))
+            }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            HEADER_TYPE ->
+                        (holder as ItemHolder).onBindHeader(mItem)
+            ITEM_TYPE -> {
+                with(holder as ItemHolder){
+                    onBind(getItem(position))
+
+                    // setOnClickListener를 부모에게 숨기고 싶다 
+                    holder.itemView.setOnClickListener {
+                        view ->
+                        if (mOnItemClickListener != null) {
+                            mOnItemClickListener.onItemClick(view, layoutPosition)
+                        }
+                    }
+                }
+            }
+        }
     }
-
 }

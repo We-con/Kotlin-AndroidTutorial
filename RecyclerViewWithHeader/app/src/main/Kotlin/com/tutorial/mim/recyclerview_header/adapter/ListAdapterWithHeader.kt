@@ -2,13 +2,9 @@ package com.tutorial.mim.recyclerview_header.adapter
 
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
 import com.tutorial.mim.recyclerview_header.model.Item
-
-import android.view.LayoutInflater
 import android.view.View
-import com.example.lf_wannabe.recyclerviewwithheader.R
-import com.tutorial.mim.recyclerview_header.model.ItemHolder
+import com.tutorial.mim.recyclerview_header.model.BaseViewHolder
 import io.realm.RealmResults
 
 
@@ -20,8 +16,8 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
                                      protected val hasHeader: Boolean)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val HEADER_TYPE: Int = 0
-    private val ITEM_TYPE: Int = 1
+    protected val HEADER_TYPE: Int = 0
+    protected val ITEM_TYPE: Int = 1
 
     private lateinit var list: RealmResults<Item>
 
@@ -36,36 +32,26 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         mOnItemClickListener = onItemClickListener
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            when (viewType) {
-                HEADER_TYPE -> createHeaderView(activity.layoutInflater, parent)
-                else -> ItemHolder(activity.layoutInflater
-                        .inflate(R.layout.list_content, parent, false))
-            }
-
-    protected abstract fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup)
-            : RecyclerView.ViewHolder
-
-    protected abstract fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int)
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (getItemViewType(position)) {
-            HEADER_TYPE -> onBindHeaderView(holder, position)
-            ITEM_TYPE -> {
-//                (holder as ItemHolder).onBind(getItem(position))
-                with(holder as ItemHolder){
-                    onBind(getItem(position))
-                    holder.itemView.setOnClickListener {
-                        view ->
-                            if (mOnItemClickListener != null) {
-                                mOnItemClickListener.onItemClick(view, layoutPosition)
-                            }
-                    }
-                }
-            }
-        }
-    }
+//
+//    protected abstract fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int)
+//
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        when (getItemViewType(position)) {
+//            HEADER_TYPE ->
+//                onBindHeaderView(holder, position)
+//            ITEM_TYPE -> {
+//                with(holder as BaseViewHolder<Item, Item>){
+//                    onBind(getItem(position))
+//                    holder.itemView.setOnClickListener {
+//                        view ->
+//                            if (mOnItemClickListener != null) {
+//                                mOnItemClickListener.onItemClick(view, layoutPosition)
+//                            }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     fun setData(list: RealmResults<Item>) {
         this.list = list
@@ -77,9 +63,9 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
     }
 
     override fun getItemCount(): Int {
-        return if (list != null) list.size + (if (hasHeader) 1 else 0) else if (hasHeader) 1 else 0
+        return list.size + if (hasHeader) 1 else 0
     }
 
-    private fun getItem(position: Int): Item? = list[position - 1]
+    protected fun getItem(position: Int): Item? = list[position - if (hasHeader) 1 else 0]
 
 }

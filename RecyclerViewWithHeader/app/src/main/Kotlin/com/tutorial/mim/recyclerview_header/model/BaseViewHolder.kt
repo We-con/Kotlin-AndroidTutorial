@@ -7,10 +7,10 @@ import android.view.View
 /**
  * Created by lf_wannabe on 27/08/2017.
  */
-abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView){
+abstract class BaseViewHolder<H, T>(itemView: View) : RecyclerView.ViewHolder(itemView){
 
     abstract fun onBind(item: T?)
 
-    abstract fun onBind(data: T, onClickListener: View.OnClickListener, context: Context)
+    abstract fun onBindHeader(header: H?)
 
 }
