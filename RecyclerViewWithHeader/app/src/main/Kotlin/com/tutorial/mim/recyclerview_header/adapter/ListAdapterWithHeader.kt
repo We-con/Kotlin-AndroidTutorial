@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.tutorial.mim.recyclerview_header.model.Item
 
 import android.view.LayoutInflater
+import android.view.View
 import com.example.lf_wannabe.recyclerviewwithheader.R
 import com.tutorial.mim.recyclerview_header.model.ItemHolder
 import io.realm.RealmResults
@@ -15,34 +16,60 @@ import io.realm.RealmResults
  * Created by lf_wannabe on 26/08/2017.
  */
 
-abstract class ListAdapterWithHeader(val activity: FragmentActivity, protected val hasHeader: Boolean)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+abstract class ListAdapterWithHeader(val activity: FragmentActivity,
+                                     protected val hasHeader: Boolean)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val HEADER_TYPE: Int = 0
     private val ITEM_TYPE: Int = 1
 
     private lateinit var list: RealmResults<Item>
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
-        = when(viewType){
-            HEADER_TYPE -> createHeaderView(activity.layoutInflater, parent)
-            else -> ItemHolder(activity.layoutInflater.inflate(R.layout.list_content, parent, false))
-        }
+    companion object {
+        lateinit var mOnItemClickListener: OnItemClickListener
+    }
 
-    protected abstract fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder
+    interface OnItemClickListener {
+        fun onItemClick(v: View, position: Int) {}
+    }
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        mOnItemClickListener = onItemClickListener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            when (viewType) {
+                HEADER_TYPE -> createHeaderView(activity.layoutInflater, parent)
+                else -> ItemHolder(activity.layoutInflater
+                        .inflate(R.layout.list_content, parent, false))
+            }
+
+    protected abstract fun createHeaderView(layoutInflater: LayoutInflater, parent: ViewGroup)
+            : RecyclerView.ViewHolder
 
     protected abstract fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             HEADER_TYPE -> onBindHeaderView(holder, position)
-            ITEM_TYPE -> (holder as ItemHolder).onBind(getItem(position))
+            ITEM_TYPE -> {
+//                (holder as ItemHolder).onBind(getItem(position))
+                with(holder as ItemHolder){
+                    onBind(getItem(position))
+                    holder.itemView.setOnClickListener {
+                        view ->
+                            if (mOnItemClickListener != null) {
+                                mOnItemClickListener.onItemClick(view, layoutPosition)
+                            }
+                    }
+                }
+            }
         }
     }
 
-    fun setData(list: RealmResults<Item>){
-        // null 체크 필요없나 ?
+    fun setData(list: RealmResults<Item>) {
         this.list = list
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {

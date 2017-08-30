@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.list_content.view.*
 /**
  * Created by lf_wannabe on 27/08/2017.
  */
-class ItemHolder(itemView: View) : BaseViewHolder<Any>(itemView) {
+class ItemHolder(itemView: View) : BaseViewHolder<Item>(itemView) {
     override fun onBind(item: Item?) {
         with(itemView){
             number.text = item?.num.toString()
