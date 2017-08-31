@@ -9,6 +9,7 @@ import com.tutorial.mim.recyclerview_header.adapter.ListAdapterWithHeader
 import com.tutorial.mim.recyclerview_header.model.BaseViewHolder
 import com.tutorial.mim.recyclerview_header.model.Item
 import com.tutorial.mim.recyclerview_header.model.ItemHolder
+import io.realm.RealmResults
 
 /**
  * Created by lf_wannabe on 27/08/2017.
@@ -16,10 +17,6 @@ import com.tutorial.mim.recyclerview_header.model.ItemHolder
 class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
     : ListAdapterWithHeader(ac, hasHeader) {
     var mItem: Item = item
-
-//    override fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int) {
-//        (holder as ItemHolder).onBindHeader(mItem)
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (viewType) {
@@ -35,9 +32,9 @@ class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
                         (holder as ItemHolder).onBindHeader(mItem)
             ITEM_TYPE -> {
                 with(holder as ItemHolder){
-                    onBind(getItem(position))
+                    onBind(getItem(position) as Item)
 
-                    // setOnClickListener를 부모에게 숨기고 싶다 
+                    // setOnClickListener를 부모에게 숨기고 싶다
                     holder.itemView.setOnClickListener {
                         view ->
                         if (mOnItemClickListener != null) {

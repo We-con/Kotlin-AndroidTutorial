@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import com.tutorial.mim.recyclerview_header.model.Item
 import android.view.View
-import com.tutorial.mim.recyclerview_header.model.BaseViewHolder
 import io.realm.RealmResults
 
 
@@ -19,7 +18,7 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
     protected val HEADER_TYPE: Int = 0
     protected val ITEM_TYPE: Int = 1
 
-    private lateinit var list: RealmResults<Item>
+    private lateinit var list: RealmResults<*>
 
     companion object {
         lateinit var mOnItemClickListener: OnItemClickListener
@@ -32,31 +31,6 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         mOnItemClickListener = onItemClickListener
     }
-//
-//    protected abstract fun onBindHeaderView(holder: RecyclerView.ViewHolder, position: Int)
-//
-//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        when (getItemViewType(position)) {
-//            HEADER_TYPE ->
-//                onBindHeaderView(holder, position)
-//            ITEM_TYPE -> {
-//                with(holder as BaseViewHolder<Item, Item>){
-//                    onBind(getItem(position))
-//                    holder.itemView.setOnClickListener {
-//                        view ->
-//                            if (mOnItemClickListener != null) {
-//                                mOnItemClickListener.onItemClick(view, layoutPosition)
-//                            }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    fun setData(list: RealmResults<Item>) {
-        this.list = list
-        notifyDataSetChanged()
-    }
 
     override fun getItemViewType(position: Int): Int {
         return if (hasHeader && position == 0) HEADER_TYPE else ITEM_TYPE
@@ -66,6 +40,10 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
         return list.size + if (hasHeader) 1 else 0
     }
 
-    protected fun getItem(position: Int): Item? = list[position - if (hasHeader) 1 else 0]
+    protected fun getItem(position: Int): Any? = list[position - if (hasHeader) 1 else 0]
 
+    fun setData(list: RealmResults<*>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
 }
