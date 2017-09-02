@@ -46,10 +46,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)?.let {
+            fab_action_email.startAnimation(it)
+            text_fab_email.startAnimation(it)
             fab_action_call.startAnimation(it)
             text_fab_call.startAnimation(it)
-            fab_action_email.startAnimation(it)
-            text_fab_mail.startAnimation(it)
         }
         fab_action_call.isClickable = true
         fab_action_email.isClickable = true
@@ -61,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)?.let {
+            fab_action_email.startAnimation(it)
+            text_fab_email.startAnimation(it)
             fab_action_call.startAnimation(it)
             text_fab_call.startAnimation(it)
-            fab_action_email.startAnimation(it)
-            text_fab_mail.startAnimation(it)
         }
         fab_action_call.isClickable = false
         fab_action_email.isClickable = false
