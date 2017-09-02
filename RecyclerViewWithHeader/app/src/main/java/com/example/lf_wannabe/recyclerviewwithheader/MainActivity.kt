@@ -9,7 +9,6 @@ import com.tutorial.mim.recyclerview_header.adapter.ListAdapterWithHeader
 import com.tutorial.mim.recyclerview_header.ex.ExAdapter
 import com.tutorial.mim.recyclerview_header.model.Item
 import io.realm.Realm
-import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.properties.Delegates
 
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     // by Delegates.notNull() => 멤버변수가 클래스 생성될때 초기화 되지않지만 변수 접근 전에 반드시 초기화되어야 한다!
     private var realm: Realm by Delegates.notNull()
-    private var realmConfig: RealmConfiguration by Delegates.notNull()
 
     var vAdapter: ExAdapter by Delegates.notNull()
 
@@ -27,8 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        realmConfig = RealmConfiguration.Builder(this).build()
-        realm = Realm.getInstance(realmConfig)
+        realm = Realm.getDefaultInstance()
 
         i = realm.where(Item::class.java).findAll().size + 1
 

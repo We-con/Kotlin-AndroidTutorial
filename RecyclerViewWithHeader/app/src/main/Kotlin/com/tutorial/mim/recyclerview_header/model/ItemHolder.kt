@@ -18,7 +18,4 @@ class ItemHolder(itemView: View) : BaseViewHolder<Item, Item>(itemView) {
     override fun onBindHeader(header: Item?) {
         itemView.header.text = header?.title
     }
-
-
-
 }

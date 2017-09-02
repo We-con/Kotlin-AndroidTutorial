@@ -15,24 +15,24 @@ import io.realm.RealmResults
  * Created by lf_wannabe on 27/08/2017.
  */
 class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
-    : ListAdapterWithHeader(ac, hasHeader) {
+    : ListAdapterWithHeader<Item, ItemHolder>(ac, hasHeader) {
     var mItem: Item = item
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            when (viewType) {
-                HEADER_TYPE -> ItemHolder(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ItemHolder =
+                        when (viewType) {
+                HEADER_TYPE -> ItemHolder(LayoutInflater.from(parent!!.context)
                             .inflate(R.layout.list_header, parent, false))
-                else -> ItemHolder(LayoutInflater.from(parent.context)
+                else -> ItemHolder(LayoutInflater.from(parent!!.context)
                         .inflate(R.layout.list_content, parent, false))
             }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ItemHolder?, position: Int) {
         when (getItemViewType(position)) {
             HEADER_TYPE ->
-                        (holder as ItemHolder).onBindHeader(mItem)
+                        holder!!.onBindHeader(mItem)
             ITEM_TYPE -> {
-                with(holder as ItemHolder){
-                    onBind(getItem(position) as Item)
+                with(holder!!){
+                    onBind(getItem(position))
 
                     // setOnClickListener를 부모에게 숨기고 싶다
                     holder.itemView.setOnClickListener {
@@ -45,4 +45,32 @@ class ExAdapter(ac: FragmentActivity, hasHeader: Boolean, item: Item)
             }
         }
     }
+
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+//            when (viewType) {
+//                HEADER_TYPE -> ItemHolder(LayoutInflater.from(parent.context)
+//                            .inflate(R.layout.list_header, parent, false))
+//                else -> ItemHolder(LayoutInflater.from(parent.context)
+//                        .inflate(R.layout.list_content, parent, false))
+//            }
+//
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        when (getItemViewType(position)) {
+//            HEADER_TYPE ->
+//                        (holder as ItemHolder).onBindHeader(mItem)
+//            ITEM_TYPE -> {
+//                with(holder as ItemHolder){
+//                    onBind(getItem(position) as Item)
+//
+//                    // setOnClickListener를 부모에게 숨기고 싶다
+//                    holder.itemView.setOnClickListener {
+//                        view ->
+//                        if (mOnItemClickListener != null) {
+//                            mOnItemClickListener.onItemClick(view, layoutPosition)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

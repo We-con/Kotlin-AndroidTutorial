@@ -16,7 +16,7 @@ class BaseApplication: Application() {
 //    }
     override fun onCreate() {
         super.onCreate()
-
+        Realm.init(this)
 
 //        realmConfig = RealmConfiguration.Builder(this).build()
 //        realm = Realm.getInstance(realmConfig)

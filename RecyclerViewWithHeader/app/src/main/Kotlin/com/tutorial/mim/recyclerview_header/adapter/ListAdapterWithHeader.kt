@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import com.tutorial.mim.recyclerview_header.model.Item
 import android.view.View
+import io.realm.RealmObject
 import io.realm.RealmResults
 
 
@@ -11,14 +12,14 @@ import io.realm.RealmResults
  * Created by lf_wannabe on 26/08/2017.
  */
 
-abstract class ListAdapterWithHeader(val activity: FragmentActivity,
-                                     protected val hasHeader: Boolean)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class ListAdapterWithHeader<T: RealmObject, VH: RecyclerView.ViewHolder>(
+        val activity: FragmentActivity, protected val hasHeader: Boolean)
+    : RecyclerView.Adapter<VH>() {
 
     protected val HEADER_TYPE: Int = 0
     protected val ITEM_TYPE: Int = 1
 
-    private lateinit var list: RealmResults<*>
+    private lateinit var list: RealmResults<T>
 
     companion object {
         lateinit var mOnItemClickListener: OnItemClickListener
@@ -40,9 +41,9 @@ abstract class ListAdapterWithHeader(val activity: FragmentActivity,
         return list.size + if (hasHeader) 1 else 0
     }
 
-    protected fun getItem(position: Int): Any? = list[position - if (hasHeader) 1 else 0]
+    protected fun getItem(position: Int): T = list[position - if (hasHeader) 1 else 0]
 
-    fun setData(list: RealmResults<*>) {
+    fun setData(list: RealmResults<T>) {
         this.list = list
         notifyDataSetChanged()
     }
