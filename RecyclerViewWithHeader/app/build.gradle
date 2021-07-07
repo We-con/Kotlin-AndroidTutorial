@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android' // 코틀린 플러그인을 적용합니다.
+apply plugin: 'kotlin-android' // 코틀린 플러그인을 적용
 apply plugin: 'kotlin-android-extensions' // 익스텐션 플러그인 적용
+apply plugin: 'realm-android' // Realm 플러그인 적용
 
 android {
     compileSdkVersion 25

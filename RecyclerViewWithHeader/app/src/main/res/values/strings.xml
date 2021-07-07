@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">RecyclerViewWithHeader</string>
+
+    <!-- Popup Activity resoources -->
+    <string name="popup_title">User Info</string>
+    <string name="popup_item_name">Android O</string>
+    <string name="popup_item_info1">BirthDay</string>
+    <string name="popup_item_info2">Favorit</string>
+    <string name="popup_item_info3">Age</string>
+    <string name="popup_item_info4">City</string>
+    <string name="popup_item_info1_dummy">AUG 23</string>
+    <string name="popup_item_info2_dummy">Soccer</string>
+    <string name="popup_item_info3_dummy">25</string>
+    <string name="popup_item_info4_dummy">Soeul</string>
 </resources>
